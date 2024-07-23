@@ -18,7 +18,7 @@ public class Parser {
     public static void parse(File file) throws IOException, ClassNotFoundException, SQLException, URISyntaxException, InterruptedException {
         FileReader reader = new FileReader(file);
         BufferedReader buffer = new BufferedReader(reader);
-        Utility.clearData();
+        CourseHandler.clearData();
         
         int crn = 0;
         String subject, number, title, department, line;
@@ -193,6 +193,7 @@ public class Parser {
 
                 // Semester
                 String semester = file.getPath().substring(11);
+                semester = semester.substring(0, 1).toUpperCase() + semester.substring(1);
 
                 // Create course and meeting objects
                 if (newCrn) {
@@ -201,8 +202,8 @@ public class Parser {
                 Meeting meeting = new Meeting(days, time, buildingName, room, campus, course);
 
                 // Save course and meeting data
-                Utility.saveCourse(course);
-                Utility.saveMeeting(meeting);
+                CourseHandler.saveCourse(course);
+                CourseHandler.saveMeeting(meeting);
             }
         }
         buffer.close();

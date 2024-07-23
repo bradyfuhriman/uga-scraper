@@ -16,7 +16,7 @@ public class Stripper {
         PDFTextStripper stripper = new PDFTextStripper();
         String result = trim(stripper.getText(document));
         document.close();
-        PrintWriter writer = new PrintWriter("./src/data/" + pdf.getPath().substring(14, pdf.getPath().lastIndexOf(".")) + "");
+        PrintWriter writer = new PrintWriter("./data/dev/" + pdf.getPath().substring(14, pdf.getPath().lastIndexOf(".")) + ".txt");
         writer.print(result);
         writer.close();
     }
