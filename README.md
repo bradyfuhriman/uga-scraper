@@ -1,1 +1,1 @@
-UGA Scraper is a web scraper for the University of Georgia's course catalogs. It downloads PDFs from [this](https://reg.uga.edu/enrollment-and-registration/schedule-of-classes/) website, parses them for course info, and retrieves a list of available courses.
+UGA Scraper is a web scraper for the University of Georgia's course catalogs. It downloads PDFs from [this](https://reg.uga.edu/enrollment-and-registration/schedule-of-classes/) website, parses them for course info, and retrieves a list of available courses. 

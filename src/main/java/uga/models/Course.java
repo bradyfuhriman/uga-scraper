@@ -92,7 +92,7 @@ public class Course {
     public void printInfo() {
         String meetingsStr = "";
         for (Meeting m : meetings) {
-            meetingsStr += "\n- " + m.getDays() + ", " + m.getTime() + ", " + m.getBuilding() + ", Room " + m.getRoom() + ", " + m.getCampus();
+            meetingsStr += "\n" + m.getDays() + ", " + m.getTime() + ", " + m.getBuilding() + ", Room " + m.getRoom() + ", " + m.getCampus();
         }
         System.out.println(subject + " " + number + ": " + title + ", " + seats + " seats left. " + "Meeting Time(s): " + meetingsStr);
         System.out.println();

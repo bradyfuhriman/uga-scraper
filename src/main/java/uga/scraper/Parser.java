@@ -11,13 +11,15 @@ import uga.models.Course;
 import uga.models.Meeting;
 
 public class Parser {
+    
+    private static Course course;
 
     /** Parses text file for course data. */
     public static void parse(File file) throws IOException, ClassNotFoundException, SQLException, URISyntaxException, InterruptedException {
         FileReader reader = new FileReader(file);
         BufferedReader buffer = new BufferedReader(reader);
         Utility.clearData();
-
+        
         int crn = 0;
         String subject, number, title, department, line;
         subject = number = title = department = line = "";
@@ -64,13 +66,15 @@ public class Parser {
                 index = line.indexOf('.') + 2;
                 
                 // CRN
+                boolean newCrn = false;
                 if (line.charAt(index) == ' ') {
 
                     // Some courses meet on different times and locations on different days of the week.
                     // If no CRN is listed, this line has additional meeting info that corresponds to the most recent CRN.
-
+                    
                     index++;
                 } else {
+                    newCrn = true;
                     crn = Integer.parseInt(line.substring(index, line.indexOf(' ')));
                     index = line.indexOf(' ') + 1;
                 }
@@ -191,7 +195,9 @@ public class Parser {
                 String semester = file.getPath().substring(11);
 
                 // Create course and meeting objects
-                Course course = new Course(crn, subject, number, title, department, hours, instructor, size, seats, semester, term);
+                if (newCrn) {
+                    course = new Course(crn, subject, number, title, department, hours, instructor, size, seats, semester, term);
+                }
                 Meeting meeting = new Meeting(days, time, buildingName, room, campus, course);
 
                 // Save course and meeting data
