@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.Set;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import uga.models.Course;
 import uga.scraper.CourseHandler;
@@ -16,11 +17,8 @@ import uga.scraper.Stripper;
 
 public class UGAScraper {
 
-    private static final Gson gson = new Gson();
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    // When the program is run, the lists below will be initialized to ArrayLists containing the JSON objects describing the courses offered during their respective semesters.
-    private static Set<Course> springCourses, summerCourses, fallCourses;
-    
     public static void main(String[] args) throws IOException, URISyntaxException, ClassNotFoundException, SQLException, InterruptedException {
         new File("./data/dev").mkdirs();
         getCourses("spring");
