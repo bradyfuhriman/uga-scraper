@@ -31,6 +31,7 @@ public class CourseHandler {
         meetings.add(meeting);
     }
 
+    /** Adds each meeting to the corresponding course object so the meetings list is no longer necessary. */
     public static void merge() {
         for (Meeting m : meetings) {
             m.getCourse().addMeeting(m);

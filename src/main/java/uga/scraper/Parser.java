@@ -12,7 +12,7 @@ import uga.models.Meeting;
 
 public class Parser {
     
-    private static Course course;
+    private static Course course;   // Holds the data for the most recently introduced course
 
     /** Parses text file for course data. */
     public static void parse(File file) throws IOException, ClassNotFoundException, SQLException, URISyntaxException, InterruptedException {
@@ -26,19 +26,19 @@ public class Parser {
 
         while ((line = buffer.readLine()) != null) {
 
-            int index = 0;
+            int index = 0;  // Used to hold the current position in the string during parsing
             
             // A line will either introduce a new course or provide details for the most recent course.
             // Introduction: "AAEC 2580 Agricultural and Applied EconAppl Microeconomic Principles"
             // Details: "3.010752 10:20 am-11:10 amM W F 1011 0104 100Smith3.0 Athens0 A 54- 1"
 
-            if (!Character.isDigit(line.charAt(index))) { // Course introduction line
+            if (!Character.isDigit(line.charAt(index))) {   // Course introduction line
 
-                // Subject
+                // Find course subject
                 subject = line.substring(index, line.indexOf(' '));
                 index = line.indexOf(' ') + 1;
 
-                // Number
+                // Find course number
                 number = line.substring(index, line.indexOf(' ', index));
                 index = line.indexOf(' ', index) + 1;
 
@@ -60,12 +60,12 @@ public class Parser {
                     title = line.substring(index);
                 }
 
-            } else { // Course details line
+            } else {    // Course details line
 
                 String max_hours = line.substring(index, line.indexOf('.') + 2);
                 index = line.indexOf('.') + 2;
                 
-                // CRN
+                // Find CRN
                 boolean newCrn = false;
                 if (line.charAt(index) == ' ') {
 
@@ -79,7 +79,7 @@ public class Parser {
                     index = line.indexOf(' ') + 1;
                 }
 
-                // Time
+                // Find meeting time
                 String time;
                 if (line.substring(index).startsWith("TBA") || line.substring(index).startsWith("NCRR")) {
 
@@ -93,7 +93,7 @@ public class Parser {
                     index += 17;
                 }
 
-                // Days
+                // Find meeting days
                 String days = "";
                 for (; !Character.isDigit(line.charAt(index)) && !line.substring(index).startsWith("TBA") && !line.substring(index).startsWith("NCRR"); index++) {
                     if (line.charAt(index) != ' ') {
@@ -105,11 +105,11 @@ public class Parser {
                     days = "N/A";
                 }
 
-                // Building number
+                // Find building number
                 String buildingNumber = line.substring(index, line.indexOf(' ', index));
                 index = line.indexOf(' ', index) + 1;
 
-                // Building name
+                // Get building name from BuildingMap
                 String buildingName;
                 if (buildingNumber.equals("TBA") || buildingNumber.equals("NCRR")) {
                     buildingName = buildingNumber;
@@ -119,16 +119,16 @@ public class Parser {
                     buildingName = BuildingMap.getName(buildingNumber);
                 }
 
-                // Room
+                // Find classroom number
                 String room = line.substring(index, line.indexOf(' ', index));
                 index = line.indexOf(' ', index) + 1;
 
-                // Class size
+                // Find class size
                 int size = 0;
                 if (line.substring(index, line.indexOf(' ', index)).matches("[.0-9]*")) {
 
-                    // Line will have class size, instructor, and min credit hours next to each other, eg. "100Smith3.0"
-                    // If there is no instructor name, the numbers will blend together, eg. "1003.0"
+                    // Lines will have class size, instructor, and min credit hours next to each other, eg. "100Smith3.0".
+                    // This line has no instructor name, so the numbers are blended together, eg. "1003.0".
 
                     size = Integer.parseInt(line.substring(index, line.indexOf('.', index) - 1));
                     index = line.indexOf('.', index) - 1;
@@ -141,7 +141,7 @@ public class Parser {
                     size = Integer.parseInt(String.valueOf(temp));
                 }
                 
-                // Instructor
+                // Find course instructor
                 String instructor;
                 if (Character.isLetter(line.charAt(index))) {
                     instructor = line.substring(index, line.indexOf('.', index) - 1);
@@ -154,7 +154,7 @@ public class Parser {
                     instructor = "TBA";
                 }
                 
-                // Hours
+                // Find credit hours
                 String hours, min_hours = line.substring(index, line.indexOf(' ', index));
                 if (min_hours.equals(max_hours)) {
                     hours = max_hours;
@@ -163,7 +163,7 @@ public class Parser {
                 }
                 index = line.indexOf(' ', index) + 1;
                 
-                // Campus
+                // Find campus
                 String campus = "";
                 for (; !line.substring(index, index + 2).matches("[a-z]\\d|[a-z][A-Z]|[a-zA-Z] "); index++) {
                     campus += line.charAt(index);
@@ -185,13 +185,13 @@ public class Parser {
                     index += 2;
                 }
 
-                // Available seats
+                // Find available seats
                 int seats = Integer.parseInt(line.substring(index, line.lastIndexOf('-')).trim());
 
-                // Part of term
+                // Find section of term
                 String term = line.substring(line.lastIndexOf('-') + 2);
 
-                // Semester
+                // Find semester
                 String semester = file.getPath().substring(11);
                 semester = semester.substring(0, 1).toUpperCase() + semester.substring(1, semester.indexOf('.'));
 

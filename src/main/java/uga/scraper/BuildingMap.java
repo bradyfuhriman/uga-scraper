@@ -7,8 +7,7 @@ import java.util.Objects;
 
 public class BuildingMap {
     
-    /** Stores the ID and name of most buildings on the Athens campus.
-     *  Some rarely used or newly built buidings may be missing. */
+    /** Stores the ID and name of all buildings at the Athens campus. */
     private static final Map<String, String> buildings = Map.ofEntries(
         entry("2029", "529 Baxter St"),
         entry("2635", "1260 S. Lumpkin St."),
