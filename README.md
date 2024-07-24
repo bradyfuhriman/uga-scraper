@@ -6,7 +6,7 @@ UGA Scraper is a web scraper for the University of Georgia's course catalogs. It
 
 Download the latest release here and run the jar with ```java -jar uga-scraper-1.0.0.jar```. A ```data``` folder will be created in the same directory the jar is in. After a few moments, the folder will be populated with ```.json``` files, one for each semester, containing a list of JSON objects describing courses available at UGA. You will also see a ```dev``` folder containing the PDFs and text files used to retrieve the course info.
 
-Below is an example of a JSON course object that might be found in ```data/spring.json```.
+Below is an example of a JSON course object that might be found in ```data/fall.json```.
 
 ```
 {
@@ -19,7 +19,7 @@ Below is an example of a JSON course object that might be found in ```data/sprin
     "instructor": "Cotterell",
     "size": 90,
     "seats": 0,
-    "semester": "Fall.txt",
+    "semester": "Fall",
     "term": "1",
     "meetings": [
         {

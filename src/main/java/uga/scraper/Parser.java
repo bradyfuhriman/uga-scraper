@@ -193,7 +193,7 @@ public class Parser {
 
                 // Semester
                 String semester = file.getPath().substring(11);
-                semester = semester.substring(0, 1).toUpperCase() + semester.substring(1);
+                semester = semester.substring(0, 1).toUpperCase() + semester.substring(1, semester.indexOf('.'));
 
                 // Create course and meeting objects
                 if (newCrn) {
